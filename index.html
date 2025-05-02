@@ -1,28 +1,97 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="color-mode-dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Michael Bernat – Home</title>
-  <link rel="stylesheet" href="assets/style.css" />
+  <link rel="stylesheet" href="https://unpkg.com/@primer/css@^20.2.4/dist/primer.css" />
+  <style>
+	body {
+	  background-image: url('assets/img/abstract_circuit_background.svg');
+	  background-size: 300px auto; /* repeat size */
+	  background-repeat: repeat;
+	  background-attachment: fixed;
+	  background-position: top left;
+	}
+
+    html.dark-mode {
+      color-scheme: dark;
+    }
+    .dark-toggle {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+    }
+  </style>
 </head>
-<body>
-  <header>
-    <nav class="navbar">
-      <ul class="nav-links">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="blog.html">Blog</a></li>
-        <li><a href="about.html">About</a></li>
+<body class="color-text-primary">
+  <button class="btn btn-sm dark-toggle" onclick="toggleDarkMode()">Toggle Dark Mode</button>
+
+  <header class="Box p-3 mb-4">
+    <nav>
+      <ul class="list-style-none d-flex flex-justify-start flex-items-center">
+        <li class="mr-3"><a href="index.html" class="btn-link">Home</a></li>
+        <li class="mr-3"><a href="blog.html" class="btn-link">Blog</a></li>
+        <li><a href="about.html" class="btn-link">About</a></li>
       </ul>
     </nav>
   </header>
 
-  <main class="hero">
-    <h1>Michael Bernat</h1>
-    <p>Systems & Infrastructure Specialist focused on automation, resilience, and deep technical architecture. I thrive in high-expectation environments and build long-term stability in the systems I touch.</p>
-    <p>
-      <a href="https://www.linkedin.com/in/michael-bernat-1b88b1172/" target="_blank" rel="noopener">Connect on LinkedIn</a>
-    </p>
-  </main>
+  <main class="container-lg p-4">
+    <h1 class="f00-light">Michael Bernat</h1>
+    <p class="text-gray">Systems & Infrastructure Specialist focused on automation, resilience, and deep technical architecture. I thrive in high-expectation environments and build long-term stability in the systems I touch.</p>
+    <p><a class="btn btn-primary" href="https://www.linkedin.com/in/michaelbernat" target="_blank">Connect on LinkedIn</a></p>
+	<div class="Box mt-5 p-4 color-bg-inset border">
+	  <h2 class="h3 border-bottom pb-2 mb-3 text-uppercase color-fg-muted">Personal Motto</h2>
+	  <p class="text-mono">"Where complexity looms and hesitation halts, I advance — not for glory, but because the path must be cleared, and I know how to walk it."</p>
+	</div>
+
+    <div class="Box mt-3 p-4 color-bg-inset border">
+      <h2 class="h3">🎯 Areas of Focus</h2>
+      <ul class="list-style-disc pl-4">
+        <li><strong>Identity & Access Management (IAM)</strong> – Designing and enforcing principles of least privilege, conditional access, and lifecycle control with clarity and accountability.</li>
+        <li><strong>Endpoint Configuration & Automation</strong> – Standardizing, securing, and streamlining fleet management with tools like Intune, Autopilot, and PowerShell orchestration.</li>
+        <li><strong>Resilience Engineering</strong> – Building systems that recover predictably under stress through proactive monitoring, layered recovery, and fault isolation.</li>
+        <li><strong>Secure Systems Architecture</strong> – Establishing layered defenses in cloud and hybrid environments, bridging access control, encryption, and hardening practices.</li>
+        <li><strong>Documentation & Clarity</strong> – Translating complexity into readable, repeatable processes. Clarity in design ensures continuity, training, and scale.</li>
+      </ul>
+    </div>
+  <div class="Box mt-3 p-4 color-bg-subtle">
+      <h2 class="h3">📜 Certifications</h2>
+      <div class="d-flex flex-items-center flex-wrap">
+        <img src="assets/img/comptia-network-ce-certification.1.png" alt="CompTIA Network+" width="120" height="120" class="mr-4 mb-3" />
+        <img src="assets/img/comptia-security-ce-certification.png" alt="CompTIA Security+" width="120" height="120" class="mr-4 mb-3" />
+      </div>
+    </div>
+    <div class="Box mt-3 p-4 color-bg-subtle">
+      <h2 class="h3">💼 Experience Highlights</h2>
+      <ul class="list-style-disc pl-4">
+        <li><strong>Sim2K</strong> – Provided Tier 2–3 infrastructure support across multiple clients, implementing and supporting Windows servers, firewalls, Intune-managed endpoints, and client change requests. Wore multiple hats as operations, procurement, liaison, and systems support specialist.</li>
+        <li><strong>NetGain Technologies</strong> – Engineered secure infrastructure and supported cloud/hybrid migrations. Automated deployment pipelines, hardened AD environments, and deployed endpoint protection across mid-size enterprise clients.</li>
+        <li><strong>YUM Brands</strong> – Supported Linux-based PoS systems, scripted tooling for support workflows, and handled VoIP and networking diagnostics.</li>
+        <li><strong>Time Warner Cable</strong> – Handled consumer internet escalations and diagnostics, specializing in networking stack visibility and end-user resolution.</li>
+        <li><strong>US Army HRC</strong> – Provided secured technical support under DOD clearance for nationwide Army recruiting infrastructure.</li>
+      </ul>
+    </div>
+	<div class="Box mt-3 p-4 color-bg-inset border">
+      <h2 class="h3 border-bottom pb-2 mb-3 text-uppercase color-fg-muted">🧩 Personal Discovery</h2>
+      <p class="f4">When I'm not deep in the world of infrastructure and identity, I find joy in strategy games, intricate puzzles, storytelling, and visual design. My love for complexity doesn't stop at work — it extends into every gameboard, campaign map, and creative challenge I embrace.</p>
+      <p class="f4">As the Dungeon Master of an ongoing Dungeons & Dragons campaign, I lead with imagination, balance creative freedom with structural logic, and adapt under pressure to keep stories thriving. This role demands flexibility, deep system knowledge, and the ability to lead through uncertainty — qualities I bring to both my players and my peers in IT.</p>
+      <p class="f4">Everything I love sharpens everything I do. I don't just solve problems; I navigate dynamic systems with clarity, craft layered experiences, and make even the most chaotic puzzle elegant and playable.</p>
+    </div>
+</main>
+
+  <script>
+    function toggleDarkMode() {
+      const html = document.documentElement;
+      if (html.classList.contains('color-mode-dark')) {
+        html.classList.remove('color-mode-dark');
+        html.classList.add('color-mode-light');
+      } else {
+        html.classList.remove('color-mode-light');
+        html.classList.add('color-mode-dark');
+      }
+    }
+  </script>
 </body>
 </html>

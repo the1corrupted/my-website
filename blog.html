@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" class="color-mode-dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Michael Bernat – Blog</title>
+  <link rel="stylesheet" href="https://unpkg.com/@primer/css@^20.2.4/dist/primer.css" />
+  <style>
+    body {
+      background-image: url('assets/img/abstract_circuit_background.svg');
+      background-size: 300px auto;
+      background-repeat: repeat;
+      background-attachment: fixed;
+      background-position: top left;
+    }
+    html.dark-mode {
+      color-scheme: dark;
+    }
+    .dark-toggle {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+    }
+  </style>
+</head>
+<body class="color-bg-default color-text-primary">
+  <button class="btn btn-sm dark-toggle" onclick="toggleDarkMode()">Toggle Dark Mode</button>
+
+  <header class="Box p-3 mb-4">
+    <nav>
+      <ul class="list-style-none d-flex flex-justify-start flex-items-center">
+        <li class="mr-3"><a href="index.html" class="btn-link">Home</a></li>
+        <li class="mr-3"><a href="blog.html" class="btn-link">Blog</a></li>
+        <li><a href="about.html" class="btn-link">About</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="container-lg p-4">
+    <h1 class="f00-light mb-4">Technical Blog</h1>
+    <div id="blog-container"></div>
+  </main>
+
+  <script>
+    function toggleDarkMode() {
+      const html = document.documentElement;
+      if (html.classList.contains('color-mode-dark')) {
+        html.classList.remove('color-mode-dark');
+        html.classList.add('color-mode-light');
+      } else {
+        html.classList.remove('color-mode-light');
+        html.classList.add('color-mode-dark');
+      }
+    }
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <!-- <script src="scripts/blog-loader.js"></script> -->
+  <script>
+    const posts = [
+      'posts/2024-12-10-setting-up-intune-policies.md',
+      'posts/2024-12-05-linux-kerberos-auth.md',
+      'posts/2024-11-15-sssd-vs-winbind.md'
+    ];
+
+    let currentPost = 0;
+    const container = document.getElementById('blog-container');
+
+    function loadNextPost() {
+      if (currentPost >= posts.length) return;
+
+      const postUrl = posts[currentPost++];
+      fetch(postUrl)
+        .then(res => res.ok ? res.text() : Promise.reject('Failed to load'))
+        .then(md => {
+          const postDiv = document.createElement('div');
+          postDiv.className = 'Box mb-4 p-4 color-bg-inset border';
+          postDiv.innerHTML = marked.parse(md);
+          container.appendChild(postDiv);
+        })
+        .catch((err) => {
+		  console.error(postUrl, err);
+		  const errorDiv = document.createElement('div');
+		  errorDiv.className = 'Box mb-4 p-4 color-bg-inset border';
+		  errorDiv.innerHTML = `
+        <p class="text-red">⚠️ Oops, something went wrong loading this post.</p>
+        <p><strong>File:</strong> <code>${postUrl}</code></p>
+        <p><strong>Error:</strong> <code>${err}</code></p>
+      `;
+		  container.appendChild(errorDiv);
+		});
+    }
+
+    function handleScroll() {
+      if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100) {
+        loadNextPost();
+      }
+    }
+
+    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('DOMContentLoaded', () => {
+      for (let i = 0; i < 2; i++) loadNextPost();
+    });
+  </script>
+</body>
+</html>
