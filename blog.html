@@ -76,6 +76,11 @@
           postDiv.className = 'Box mb-4 p-4 color-bg-inset border';
           postDiv.innerHTML = marked.parse(md);
           container.appendChild(postDiv);
+          setTimeout(() => {
+            if (window.innerHeight >= document.body.offsetHeight) {
+              loadNextPost();
+            }
+          }, 100);
         })
         .catch((err) => {
 		  console.error(postUrl, err);
@@ -87,18 +92,24 @@
         <p><strong>Error:</strong> <code>${err}</code></p>
       `;
 		  container.appendChild(errorDiv);
-		});
+        setTimeout(() => {
+          if (window.innerHeight >= document.body.offsetHeight) {
+            loadNextPost();
+          }
+        }, 100);
+      });
     }
 
     function handleScroll() {
       if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100) {
         loadNextPost();
+        window.addEventListener('scroll', handleScroll);
       }
     }
 
     window.addEventListener('scroll', handleScroll);
     window.addEventListener('DOMContentLoaded', () => {
-      for (let i = 0; i < 2; i++) loadNextPost();
+      loadNextPost();
     });
   </script>
 </body>
