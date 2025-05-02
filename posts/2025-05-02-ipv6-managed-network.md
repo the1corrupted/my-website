@@ -1,12 +1,12 @@
----
-
 ## 2025-05-02 - IPv6: Getting Your Prefix
 
 Setting up a managed IPv6 network with router advertisements (RA) is a foundational skill for modern system administrators. This article reflects my experience and approach to configuring such a network. I will begin by walking through the first major step: acquiring and applying your IPv6 prefix.
 
 IPv6 is only scary because the numbers are bigger. Don't let those big numbers bully you. Don't be afraid just because they're longer, and "oh god they have **letters too**."
 
+
 ## Step 1: Get Your Existing Prefix
+
 
 The very first building block of an IPv6 network is your **prefix**. An IPv6 prefix is essentially the base of your address range—everything from the network ID to your potential subnets derives from this.
 
@@ -56,7 +56,6 @@ This is not routable on the internet but is perfect for internal testing.
 
 > For setting up IPv6 to IPv4 routing and translation, see my companion article on NAT64 and DNS64
 
----
 
 ## Step 2: Identify Your Infrastructure
 
