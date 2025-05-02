@@ -40,11 +40,10 @@
     <h1 class="f00-light mb-4">About Me</h1>
     <div class="Box p-4 color-bg-inset border">
       <p>Welcome! Below you'll find a secure way to access my resume.</p>
-      <p><strong>To continue, please answer this:</strong></p>
       <form id="captcha-form" class="mb-3">
-        <label id="captcha-question" for="captcha">Loading question...</label>
-        <button type="button" class="btn btn-sm ml-2" onclick="reloadQuestion()">↻ New Question</button>
-        <input type="text" id="captcha" class="form-control input-sm width-small mr-2" />
+	    <p><strong>To continue, please answer this:</strong></p>
+        <p><button type="button" class="btn btn-sm ml-2" onclick="reloadQuestion()">↻ New Question</button> <label id="captcha-question" for="captcha">Loading question...</label></p>
+        <p><input type="text" id="captcha" class="form-control input-sm width-small mr-2" /></p>
         <button type="submit" class="btn btn-sm">Verify</button>
       </form>
       <div id="download-link" class="d-none">
@@ -65,8 +64,16 @@
       { q: 'Which mythological creature is half-man, half-bull?', a: 'minotaur' },
       { q: "Which mythological creature is half-man, half-horse?", a: 'centaur'},
       { q: 'Which fire-breathing beast is commonly found guarding treasure in myths?', a: 'dragon' },
-      { q: 'Which Greek hero is known for his incredible strength and twelve labors?', a: 'hercules' },
+	  
+	  // MICHAEL!
       { q: "Which saint shares my first name?", a: 'michael'},
+	  { q: "What is the first name of the archangel often depicted slaying a dragon?", a: 'michael'},
+	  { q: "What is the first name of the famous 80's pop artist known as the 'King of Pop'?", a: 'michael'},
+	  { q: "What first name is shared by an angel, a basketball icon, and a pop star?", a: 'michael'},
+	  { q: "What is the long form of the name Mike?", a: 'michael'},
+	  
+	  // Unscrambles
+      { q: 'Unscramble this name: "ceimahl"', a: 'michael' },
       { q: 'Unscramble this word: "tnsrcctuo"', a: 'construct' },
       { q: 'Unscramble this word: "cursyite"', a: 'security' },
       { q: 'Unscramble this word: "garthiolm"', a: 'algorithm' },
@@ -75,16 +82,39 @@
 
       // Egyptian
       { q: 'Which Egyptian god has the head of a falcon and is associated with the sky?', a: 'horus' },
-      { q: 'What iconic structure in Egypt is often associated with ancient tombs and pharaohs?', a: 'pyramid' }
+      { q: 'What iconic structure in Egypt is often associated with ancient tombs and pharaohs?', a: 'pyramid' },
+	  
+	  // Greek
+	  { q: 'Which Greek hero is known for his incredible strength and twelve labors?', a: 'hercules' },
+	  { q: 'What weapon is the Greek god Poseiden known for?', a: 'trident' },
+	  { q: 'What Greek god is known for lightning, thunder and as leader of Olympus?', a: 'zeus' },
 
       // Pop Culture
       { q: 'What is the name of the wizarding school Harry Potter attends?', a: 'hogwarts' },
       { q: 'What sci-fi franchise features Jedi, the Force, and lightsabers?', a: 'star wars' },
-      { q: 'What is the name of the AI in Iron Man’s suit?', a: 'jarvis' }
+      { q: 'What is the name of the AI in Iron Man’s suit?', a: 'jarvis' },
+	  
+	  // Simple math
+	  { q: 'What is 7 + 5?', a: '12' },
+	  { q: 'What is 6 + 5?', a: '11' },
+	  { q: 'What is 15 doubled?', a: '30' },
+	  { q: 'What is 10 doubled?', a: '20' },
+	  { q: 'What is 10 + 11?', a: '21' },
+	  { q: 'What is 16 + 5?', a: '21' },
+	  { q: 'What is 7 + 20?', a: '27' },
+	  { q: 'What is 12 + 15?', a: '27' },
+	  { q: 'What is 22 + 20?', a: '42' }
     ];
 
     let currentQuestion = {};
+    let pastQuestion = {};
     function reloadQuestion() {
+      let next;
+      do {
+        next = questions[Math.floor(Math.random() * questions.length)];
+      } while (next.q === pastQuestion.q);
+      pastQuestion = currentQuestion;
+      currentQuestion = next;
       currentQuestion = questions[Math.floor(Math.random() * questions.length)];
       captchaEl.textContent = currentQuestion.q;
       captchaInput.value = '';
