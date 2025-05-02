@@ -13,6 +13,17 @@
 	  background-attachment: fixed;
 	  background-position: top left;
 	}
+	
+    #motto-rotator {
+      line-height: 1.5;
+      min-height: calc(1.5em * 3);
+      max-height: calc(1.5em * 3);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
 
     html.dark-mode {
       color-scheme: dark;
@@ -37,14 +48,74 @@
     </nav>
   </header>
 
-  <main class="container-lg p-4">
-    <h1 class="f00-light">Michael Bernat</h1>
-    <p class="text-gray">Systems & Infrastructure Specialist focused on automation, resilience, and deep technical architecture. I thrive in high-expectation environments and build long-term stability in the systems I touch.</p>
-    <p><a class="btn btn-primary" href="https://www.linkedin.com/in/michael-bernat-1b88b1172/" target="_blank">Connect on LinkedIn</a></p>
-	<div class="Box mt-5 p-4 color-bg-inset border">
-	  <h2 class="h3 border-bottom pb-2 mb-3 text-uppercase color-fg-muted">Personal Motto</h2>
-	  <p class="text-mono">"Where complexity looms and hesitation halts, I advance — not for glory, but because the path must be cleared, and I know how to walk it."</p>
-	</div>
+   <main class="container-lg p-4">
+    <h1 class="f00-light mb-4">Michael Bernat</h1>
+	<p><a class="btn btn-primary" href="https://www.linkedin.com/in/michael-bernat-1b88b1172/" target="_blank">Connect on LinkedIn</a></p>
+    <p class="lead">Engineer. Strategist. Builder of systems—digital and philosophical.</p>
+	<div class="Box p-4 mb-4 color-bg-subtle text-center">
+		<h2 class="h3 text-uppercase mb-2">My Ethos</h2>
+      <div id="motto-rotator" class="f4 text-mono"></div>
+      <div>
+        <button id="prev-quote" class="btn btn-sm mr-2">← Previous</button>
+        <button id="pause-quote" class="btn btn-sm mr-2">Pause</button>
+        <button id="next-quote" class="btn btn-sm">Next →</button>
+      </div>
+    </div>
+
+  <script src="scripts/dark-mode.js"></script>
+
+
+<script>
+    const mottos = [
+      `When called to action: strike first. Stand last. Claim the silence. Victors do not boast; they rebuild in quiet. Peace is the duty of vigilance.`,
+      `The skillful fighter puts himself into a position which makes defeat impossible. — Sun Tzu, The Art of War`,
+      `The general who wins the battle makes many calculations in his temple before the battle is fought. — Sun Tzu, The Art of War`,
+      `Victorious warriors win first and then go to war. Defeated warriors go to war first and then seek to win. — Sun Tzu, The Art of War`,
+      `Smart people learn from everything and everyone. Average people from their experiences. Stupid people already have all the answers. — Socrates (Attributed)`,
+      `A man who has committed a mistake and doesn't correct it is committing another mistake. — Confucius`,
+      `Truly I tell you, unless you change and become like little children, you will never enter the kingdom of heaven. — Matthew 18:3 (NIV)`,
+      `Act without striving, build without claiming, lead without controlling. — Tao Te Ching, paraphrased from Chapters 10 & 51`
+    ];
+
+    let mottoIndex = 0;
+    let paused = false;
+    const rotator = document.getElementById('motto-rotator');
+    const pauseBtn = document.getElementById('pause-quote');
+    const nextBtn = document.getElementById('next-quote');
+    const prevBtn = document.getElementById('prev-quote');
+
+    function updateQuote() {
+      rotator.style.opacity = 0;
+      setTimeout(() => {
+        rotator.textContent = mottos[mottoIndex];
+        rotator.style.opacity = 1;
+      }, 300);
+    }
+
+    function nextQuote() {
+      mottoIndex = (mottoIndex + 1) % mottos.length;
+      updateQuote();
+    }
+
+    function prevQuote() {
+      mottoIndex = (mottoIndex - 1 + mottos.length) % mottos.length;
+      updateQuote();
+    }
+
+    pauseBtn.addEventListener('click', () => {
+      paused = !paused;
+      pauseBtn.textContent = paused ? 'Resume' : 'Pause';
+    });
+
+    nextBtn.addEventListener('click', nextQuote);
+    prevBtn.addEventListener('click', prevQuote);
+
+    updateQuote();
+    setInterval(() => {
+      if (!paused) nextQuote();
+    }, 8000);
+  </script>
+
 
     <div class="Box mt-3 p-4 color-bg-inset border">
       <h2 class="h3">🎯 Areas of Focus</h2>
