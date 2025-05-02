@@ -4,7 +4,15 @@ This guide configures a Debian 12 privileged container for use with Samba and Wi
 
 ---
 
-## ✅ 1. Container Privilege Setup (Proxmox Host)
+## 📝 Notes
+
+- This setup **does not use SSSD**.
+- **Winbind is required** for Samba ACL resolution with Active Directory.
+- Privileged containers simplify ID and ACL handling without UID remapping.
+
+---
+
+## Step 1. Container Privilege Setup (Proxmox Host)
 
 Edit `/etc/pve/lxc/300.conf` on the Proxmox host:
 
@@ -17,7 +25,7 @@ Restart the container to apply.
 
 ---
 
-## ✅ 2. Install Required Packages
+## Step 2. Install Required Packages
 
 ```bash
 apt update && apt upgrade -y
@@ -26,7 +34,7 @@ apt install -y krb5-user samba smbclient keyutils winbind libnss-winbind libpam-
 
 ---
 
-## ✅ 3. Configure Kerberos `/etc/krb5.conf`
+## Step 3. Configure Kerberos `/etc/krb5.conf`
 
 ```ini
 [libdefaults]
@@ -47,7 +55,7 @@ apt install -y krb5-user samba smbclient keyutils winbind libnss-winbind libpam-
 
 ---
 
-## ✅ 4. Join the Domain
+## Step 4. Join the Domain
 
 ```bash
 net ads join -U administrator
@@ -61,7 +69,7 @@ net ads testjoin
 
 ---
 
-## ✅ 5. Configure NSS `/etc/nsswitch.conf`
+## Step 5. Configure NSS `/etc/nsswitch.conf`
 
 ```ini
 passwd:         files systemd winbind
@@ -71,7 +79,7 @@ shadow:         files winbind
 
 ---
 
-## ✅ 6. Configure Samba `/etc/samba/smb.conf`
+## Step 6. Configure Samba `/etc/samba/smb.conf`
 
 ```ini
 [global]
@@ -113,7 +121,7 @@ shadow:         files winbind
 
 ---
 
-## ✅ 7. Enable and Restart Services
+## Step 7. Enable and Restart Services
 
 ```bash
 systemctl restart smbd nmbd winbind
@@ -122,7 +130,7 @@ systemctl enable smbd nmbd winbind
 
 ---
 
-## ✅ 8. Verify Domain Users & Groups
+## Step 8. Verify Domain Users & Groups
 
 ```bash
 wbinfo -u
@@ -133,7 +141,7 @@ getent group "domain users"
 
 ---
 
-## ✅ 9. (Optional) Enable Home Directory Creation
+## Step 9. (Optional) Enable Home Directory Creation
 
 ```bash
 pam-auth-update --enable mkhomedir
@@ -143,7 +151,7 @@ Creates home directories on first login via PAM.
 
 ---
 
-## ✅ 10. Prepare the Share Directory
+## Step 10. Prepare the Share Directory
 
 ```bash
 mkdir -p /srv/samba/shared
@@ -158,11 +166,3 @@ Ensure the filesystem supports ACLs:
 mount | grep /srv/samba/shared
 tune2fs -l /dev/mapper/pve-vm--300--disk--1 | grep 'Default mount options'
 ```
-
----
-
-## 📝 Notes
-
-- This setup **does not use SSSD**.
-- **Winbind is required** for Samba ACL resolution with Active Directory.
-- Privileged containers simplify ID and ACL handling without UID remapping.
