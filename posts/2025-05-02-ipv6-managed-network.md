@@ -1,4 +1,8 @@
-## 2025-05-02 - IPv6: Getting Your Prefix
+# 2025-05-02 - IPv6: Gaining Control of your Network
+
+Every engineer I have encountered is deeply entrenched in IPv4. When I ask if they have ever tried IPv6, I am more surprised everyone says "NO"! Is it a lack of practice? A lack of understanding? IPv6 being disabled on everyones individual device is not a long term solution.
+
+Why did you have a DNS error? IPv6 was enabled? You didn't bother to set up that half of your network?
 
 Setting up a managed IPv6 network with router advertisements (RA) is a foundational skill for modern system administrators. This article reflects my experience and approach to configuring such a network. I will begin by walking through the first major step: acquiring and applying your IPv6 prefix.
 
