@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en" class="color-mode-dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Michael Bernat – About</title>
+  <link rel="stylesheet" href="https://unpkg.com/@primer/css@^20.2.4/dist/primer.css" />
+  <style>
+    body {
+      background-image: url('assets/img/abstract_circuit_background.svg');
+      background-size: 300px auto;
+      background-repeat: repeat;
+      background-attachment: fixed;
+      background-position: top left;
+    }
+    html.dark-mode {
+      color-scheme: dark;
+    }
+    .dark-toggle {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+    }
+  </style>
+</head>
+<body class="color-bg-default color-text-primary">
+  <button class="btn btn-sm dark-toggle" onclick="toggleDarkMode()">Toggle Dark Mode</button>
+
+  <header class="Box p-3 mb-4">
+    <nav>
+      <ul class="list-style-none d-flex flex-justify-start flex-items-center">
+        <li class="mr-3"><a href="index.html" class="btn-link">Home</a></li>
+        <li class="mr-3"><a href="blog.html" class="btn-link">Blog</a></li>
+        <li><a href="about.html" class="btn-link">About</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="container-lg p-4">
+    <h1 class="f00-light mb-4">About Me</h1>
+    <div class="Box p-4 color-bg-inset border">
+      <p>Welcome! Below you'll find a secure way to access my resume.</p>
+      <p><strong>To continue, please answer this:</strong></p>
+      <form id="captcha-form" class="mb-3">
+        <label id="captcha-question" for="captcha">Loading question...</label>
+        <button type="button" class="btn btn-sm ml-2" onclick="reloadQuestion()">↻ New Question</button>
+        <input type="text" id="captcha" class="form-control input-sm width-small mr-2" />
+        <button type="submit" class="btn btn-sm">Verify</button>
+      </form>
+      <div id="download-link" class="d-none">
+        <a href="assets/Michael_Bernat_2025_Resume.pdf" class="btn btn-primary">Download Resume</a>
+      </div>
+    </div>
+  </main>
+
+  <script src="scripts/dark-mode.js"></script>
+  <script>
+    const captchaEl = document.getElementById('captcha-question');
+    const captchaInput = document.getElementById('captcha');
+    const form = document.getElementById('captcha-form');
+    const download = document.getElementById('download-link');
+
+    const questions = [
+      // Mythology
+      { q: 'Which mythological creature is half-man, half-bull?', a: 'minotaur' },
+      { q: "Which mythological creature is half-man, half-horse?", a: 'centaur'},
+      { q: 'Which fire-breathing beast is commonly found guarding treasure in myths?', a: 'dragon' },
+      { q: 'Which Greek hero is known for his incredible strength and twelve labors?', a: 'hercules' },
+      { q: "Which saint shares my first name?", a: 'michael'},
+      { q: 'Unscramble this word: "srotucne"', a: 'construct' },
+      { q: 'Unscramble this word: "ceitrsuy"', a: 'security' },
+      { q: 'Unscramble this word: "mthrogi"', a: 'algorithm' },
+      { q: 'Unscramble this word: "dntianioy"', a: 'identity' },
+      { q: 'Unscramble this word: "arefswot"', a: 'software' },
+
+      // Egyptian
+      { q: 'Which Egyptian god has the head of a falcon and is associated with the sky?', a: 'horus' },
+      { q: 'Which goddess is known as the protector of the throne and mother of Horus?', a: 'isis' },
+
+      // Pop Culture
+      { q: 'What is the name of the wizarding school Harry Potter attends?', a: 'hogwarts' },
+      { q: 'What sci-fi franchise features Jedi, the Force, and lightsabers?', a: 'star wars' },
+      { q: 'What is the name of the AI in Iron Man’s suit?', a: 'jarvis' }
+    ];
+
+    let currentQuestion = {};
+    function reloadQuestion() {
+      currentQuestion = questions[Math.floor(Math.random() * questions.length)];
+      captchaEl.textContent = currentQuestion.q;
+      captchaInput.value = '';
+    }
+    reloadQuestion();
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const answer = captchaInput.value.trim().toLowerCase();
+      if (answer === currentQuestion.a.toLowerCase()) {
+        download.classList.remove('d-none');
+        form.classList.add('d-none');
+        download.innerHTML = '<p class="mb-2">✅ Verified! Your download will be ready in <span id="countdown">3</span> seconds...</p>';
+        let count = 3;
+        const interval = setInterval(() => {
+          count--;
+          document.getElementById('countdown').textContent = count;
+          if (count === 0) {
+            clearInterval(interval);
+            const link = document.createElement('a');
+            const encodedPath = 'YXNzZXRzL01pY2hhZWxfQmVybmF0XzIwMjVfUmVzdW1lLnBkZg==';
+            link.href = atob(encodedPath);
+            link.download = atob(encodedPath);
+            link.className = 'btn btn-primary';
+            link.target = '_blank';
+            link.textContent = 'Download Resume';
+            download.innerHTML = '';
+            download.appendChild(link);
+            // User must manually click the button to download
+            // Do not auto-trigger download
+          }
+        }, 1000);
+      } else {
+        alert('Incorrect answer. Please try again.');
+        captchaInput.value = '';
+      }
+    });
+  </script>
+  
+</body>
+</html>
