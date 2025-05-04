@@ -57,6 +57,8 @@ apt install -y krb5-user samba smbclient keyutils winbind libnss-winbind libpam-
 
 ## Step 4. Configure Samba `/etc/samba/smb.conf`
 
+Make sure to change the domain entries to match your local domain. Workgroup is the domain POSIX name, and realm is the full domain name as defined in `/etc/krb5.conf`.
+
 ```ini
 [global]
    workgroup = DOMLOCAL
@@ -70,8 +72,8 @@ apt install -y krb5-user samba smbclient keyutils winbind libnss-winbind libpam-
    idmap config * : backend = tdb
    idmap config * : range = 3000-7999
 
-   idmap config NECRODEX : backend = rid
-   idmap config NECRODEX : range = 10000-999999
+   idmap config DOMLOCAL : backend = rid
+   idmap config DOMLOCAL : range = 10000-999999
 
    winbind use default domain = yes
    winbind offline logon = false
@@ -110,7 +112,8 @@ net ads testjoin
 ```ini
 passwd:         files systemd winbind
 group:          files systemd winbind
-shadow:         files winbind
+shadow:         files systemd winbind
+gshadow:        files systemd winbind
 ```
 
 ---
@@ -172,3 +175,12 @@ Enable the share from `/etc/samba/smb.conf` by adding the share properties at th
    create mask = 0660
    directory mask = 0770
 ```
+
+**Optional:** Introduce role-based access control directly on the share by specifying **valid users** and/or **valid groups** at the end of the share definition:
+
+```ini
+valid groups = "domain admin","domain users"
+valid users = "domain_user1@domain.local","administrator@domain.local"
+```
+
+The fully qualified domain user name is preferred here, but not necessarily required since UID and GID translation is enabled on the server from previous steps.
