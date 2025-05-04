@@ -9,6 +9,7 @@ This guide configures a Debian 12 privileged container for use with Samba and Wi
 - This setup **does not use SSSD**.
 - **Winbind is required** for Samba ACL resolution with Active Directory.
 - Privileged containers simplify ID and ACL handling without UID remapping.
+- Role-Based Access Control implementation.
 
 ---
 
@@ -76,6 +77,7 @@ Make sure to change the domain entries to match your local domain. Workgroup is 
    idmap config DOMLOCAL : range = 10000-999999
 
    winbind use default domain = yes
+   # If the DC is down, setting offline logon to TRUE can grant access
    winbind offline logon = false
    winbind enum users = yes
    winbind enum groups = yes
@@ -184,3 +186,9 @@ valid users = "domain_user1@domain.local","administrator@domain.local"
 ```
 
 The fully qualified domain user name is preferred here, but not necessarily required since UID and GID translation is enabled on the server from previous steps.
+
+### Considerations with RBAC with valid groups and users
+
+As configured, they overlap as dual security filters. For the example above, **only** domain_user1 and administrator can access the share. **AT ALL**. It works this way:
+
+valid users must be members of the valid groups. If you want **simple** group access, **only use valid groups**.
