@@ -29,7 +29,7 @@ Restart the container to apply.
 
 ```bash
 apt update && apt upgrade -y
-apt install -y krb5-user samba smbclient keyutils winbind libnss-winbind libpam-winbind
+apt install -y krb5-user samba smbclient keyutils winbind libnss-winbind libpam-winbind acl
 ```
 
 ---
@@ -55,31 +55,7 @@ apt install -y krb5-user samba smbclient keyutils winbind libnss-winbind libpam-
 
 ---
 
-## Step 4. Join the Domain
-
-```bash
-net ads join -U administrator
-```
-
-Check status:
-
-```bash
-net ads testjoin
-```
-
----
-
-## Step 5. Configure NSS `/etc/nsswitch.conf`
-
-```ini
-passwd:         files systemd winbind
-group:          files systemd winbind
-shadow:         files winbind
-```
-
----
-
-## Step 6. Configure Samba `/etc/samba/smb.conf`
+## Step 4. Configure Samba `/etc/samba/smb.conf`
 
 ```ini
 [global]
@@ -110,13 +86,31 @@ shadow:         files winbind
    store dos attributes = yes
    ea support = yes
 
-[Shared]
-   path = /srv/samba/shared
-   read only = no
-   browsable = yes
-   guest ok = no
-   create mask = 0660
-   directory mask = 0770
+
+```
+
+---
+
+## Step 5. Join the Domain
+
+```bash
+net ads join -U administrator
+```
+
+Check status:
+
+```bash
+net ads testjoin
+```
+
+---
+
+## Step 6. Configure NSS `/etc/nsswitch.conf`
+
+```ini
+passwd:         files systemd winbind
+group:          files systemd winbind
+shadow:         files winbind
 ```
 
 ---
