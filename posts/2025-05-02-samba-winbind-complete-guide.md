@@ -160,3 +160,15 @@ Ensure the filesystem supports ACLs:
 mount | grep /srv/samba/shared
 tune2fs -l /dev/mapper/pve-vm--300--disk--1 | grep 'Default mount options'
 ```
+
+Enable the share from `/etc/samba/smb.conf` by adding the share properties at the end
+
+```ini
+[Shared]
+   path = /srv/samba/shared
+   read only = no
+   browsable = yes
+   guest ok = no
+   create mask = 0660
+   directory mask = 0770
+```
